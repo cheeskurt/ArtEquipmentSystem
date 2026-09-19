@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.ItemName)
             </td>
             <td>
-                <img src="@("/img/" + item.ItemName)" asp-append-version="true" height="64px" width="64px" />
+                <img src="@("~/img/" + item.ItemName)" asp-append-version="true" height="64px" width="64px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category)

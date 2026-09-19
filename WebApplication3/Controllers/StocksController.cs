@@ -20,7 +20,10 @@ public class StocksController : Controller
     // GET: STOCKS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Stock.ToListAsync());
+        var stock = _context.Stock
+                .Include(s => s.Item)
+                .AsNoTracking();
+        return View(await stock.ToListAsync());
     }
 
     // GET: STOCKS/Details/5
@@ -33,6 +36,7 @@ public class StocksController : Controller
         }
 
         var stock = await _context.Stock
+            .Include(s => s.Item)
             .FirstOrDefaultAsync(m => m.StockID == id);
         if (stock == null)
         {
@@ -45,6 +49,7 @@ public class StocksController : Controller
     // GET: STOCKS/Create
     public IActionResult Create()
     {
+        ItemForeignKeyDropdown();
         return View();
     }
 
@@ -78,6 +83,7 @@ public class StocksController : Controller
         {
             return NotFound();
         }
+        ItemForeignKeyDropdown();
         return View(stock);
     }
 

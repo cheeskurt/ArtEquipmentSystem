@@ -72,8 +72,8 @@ using (var scope = app.Services.CreateScope())
 
     // ecc7ebb7-0241-4f85-a6d8-39208c0f4d3c
 
-    string email = "art@rmail.com";
-    string password = "Heart2026~";
+    string email = "staff@gmail.com";
+    string password = "*Art2026*";
 
 
     if(await usr_manager.FindByEmailAsync(email) == null)
