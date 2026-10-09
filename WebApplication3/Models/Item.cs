@@ -14,7 +14,7 @@ namespace WebApplication3.Models
         public int ItemID { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]+$")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Letters only, please.")]
         [Display(Name = "Item Name")]
         public string ItemName { get; set; }
 
