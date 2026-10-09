@@ -8,7 +8,7 @@ namespace WebApplication3.Models
     { 
         Storage, Tablets, Paints, Cameras
     }
-    public class Item
+    public class Item 
     {
         [Key]
         public int ItemID { get; set; }
