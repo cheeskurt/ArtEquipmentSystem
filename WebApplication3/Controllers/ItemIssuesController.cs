@@ -24,7 +24,11 @@ namespace WebApplication3.Controllers
         // GET: ItemIssues
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ItemIssue.ToListAsync());
+            var itemIssue = _context.ItemIssue
+                .Include(ii => ii.Issue)
+                .Include(ii => ii.Stock)
+                .AsNoTracking();
+            return View(await itemIssue.ToListAsync());
         }
 
         // GET: ItemIssues/Details/5
@@ -36,7 +40,9 @@ namespace WebApplication3.Controllers
             }
 
             var itemIssue = await _context.ItemIssue
-                .FirstOrDefaultAsync(m => m.ItemIssueID == id);
+            .Include(ii => ii.Issue)
+            .Include(ii => ii.Stock)
+            .FirstOrDefaultAsync(m => m.StockID == id);
             if (itemIssue == null)
             {
                 return NotFound();
@@ -48,6 +54,8 @@ namespace WebApplication3.Controllers
         // GET: ItemIssues/Create
         public IActionResult Create()
         {
+            IssueForeignKeyDropdown();
+            StockForeignKeyDropdown();
             return View();
         }
 
@@ -64,6 +72,8 @@ namespace WebApplication3.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            IssueForeignKeyDropdown(itemIssue.IssueID);
+            StockForeignKeyDropdown(itemIssue.StockID);
             return View(itemIssue);
         }
 
@@ -80,6 +90,8 @@ namespace WebApplication3.Controllers
             {
                 return NotFound();
             }
+            IssueForeignKeyDropdown();
+            StockForeignKeyDropdown();
             return View(itemIssue);
         }
 
@@ -115,7 +127,29 @@ namespace WebApplication3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            IssueForeignKeyDropdown(itemIssue.IssueID);
+            StockForeignKeyDropdown(itemIssue.StockID);
             return View(itemIssue);
+        }
+
+        // LINQ Query that displays the name of the issue in place of the standard foreign key field.
+        // When using the application, the user sees the issue number whilst the ID is entered in the background.
+        private void IssueForeignKeyDropdown(object selected = null)
+        {
+            var query = from i in _context.Issue
+                        orderby i.IssueID
+                        select i;
+            ViewBag.IssueID = new SelectList(query.AsNoTracking(), "IssueID", "IssueID", selected);
+        }
+
+        // LINQ Query that displays the tag of the stock in place of the standard foreign key field.
+        // When using the application, the user sees the stock tag whilst the ID is entered in the background.
+        private void StockForeignKeyDropdown(object selected = null)
+        {
+            var query = from s in _context.Stock
+                        orderby s.StockTag
+                        select s;
+            ViewBag.StockID = new SelectList(query.AsNoTracking(), "StockID", "StockTag", selected);
         }
 
         // GET: ItemIssues/Delete/5
@@ -127,6 +161,9 @@ namespace WebApplication3.Controllers
             }
 
             var itemIssue = await _context.ItemIssue
+                .Include(ii => ii.Issue)
+                .Include(ii => ii.Stock)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ItemIssueID == id);
             if (itemIssue == null)
             {

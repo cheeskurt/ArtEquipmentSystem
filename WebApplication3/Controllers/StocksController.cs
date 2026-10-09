@@ -123,6 +123,8 @@ public class StocksController : Controller
         return View(stock);
     }
 
+    // LINQ Query that displays the name of the item in place of the standard foreign key field.
+    // When using the application, the user sees the item names whilst the ID is entered in the background.
     private void ItemForeignKeyDropdown(object selected = null)
     {
         var query = from i in _context.Item
@@ -140,7 +142,9 @@ public class StocksController : Controller
         }
 
         var stock = await _context.Stock
-            .FirstOrDefaultAsync(m => m.StockID == id);
+                .Include(s => s.Item)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.StockID == id);
         if (stock == null)
         {
             return NotFound();

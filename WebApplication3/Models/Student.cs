@@ -20,6 +20,7 @@ namespace WebApplication3.Models
         public string LastName { get; set; }
 
         [Required]
+        [Range(9, 13)]
         public int Year { get; set; }
 
         [Required]

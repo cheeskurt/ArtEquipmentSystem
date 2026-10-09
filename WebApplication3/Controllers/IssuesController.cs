@@ -24,7 +24,11 @@ namespace WebApplication3.Controllers
         // GET: Issues
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Issue.ToListAsync());
+            var issue = _context.Issue
+                .Include(i => i.Student)
+                .Include(i => i.Subject)
+                .AsNoTracking();
+            return View(await issue.ToListAsync());
         }
 
         // GET: Issues/Details/5
@@ -36,6 +40,8 @@ namespace WebApplication3.Controllers
             }
 
             var issue = await _context.Issue
+                .Include(i => i.Student)
+                .Include(i => i.Subject)
                 .FirstOrDefaultAsync(m => m.IssueID == id);
             if (issue == null)
             {
@@ -48,6 +54,8 @@ namespace WebApplication3.Controllers
         // GET: Issues/Create
         public IActionResult Create()
         {
+            StudentForeignKeyDropdown();
+            SubjectForeignKeyDropdown();
             return View();
         }
 
@@ -66,7 +74,8 @@ namespace WebApplication3.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-
+            StudentForeignKeyDropdown(issue.StudentID);
+            SubjectForeignKeyDropdown(issue.SubjectID);
             return View(issue);
         }
 
@@ -83,6 +92,8 @@ namespace WebApplication3.Controllers
             {
                 return NotFound();
             }
+            StudentForeignKeyDropdown();
+            SubjectForeignKeyDropdown();
             return View(issue);
         }
 
@@ -119,15 +130,24 @@ namespace WebApplication3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
+            StudentForeignKeyDropdown(issue.StudentID);
+            SubjectForeignKeyDropdown(issue.SubjectID);
             return View(issue);
+        }
+
+        private void StudentForeignKeyDropdown(object selected = null)
+        {
+            var query = from s in _context.Student
+                        orderby s.FirstName
+                        select s;
+            ViewBag.StudentID = new SelectList(query.AsNoTracking(), "StudentID", "FirstName", selected);
         }
 
         private void SubjectForeignKeyDropdown(object selected = null)
         {
             var query = from s in _context.Subject
-            orderby s.SubjectName
-            select s;
+                        orderby s.SubjectName
+                        select s;
             ViewBag.SubjectID = new SelectList(query.AsNoTracking(), "SubjectID", "SubjectName", selected);
         }
 
@@ -140,6 +160,9 @@ namespace WebApplication3.Controllers
             }
 
             var issue = await _context.Issue
+                .Include(i => i.Student)
+                .Include(i => i.Subject)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.IssueID == id);
             if (issue == null)
             {
