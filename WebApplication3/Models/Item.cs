@@ -14,6 +14,7 @@ namespace WebApplication3.Models
         public int ItemID { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]+$")]
         [Display(Name = "Item Name")]
         public string ItemName { get; set; }
 
