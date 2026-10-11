@@ -21,9 +21,7 @@ namespace WebApplication3.Models
         [MaxLength(150)]
         public string? Note { get; set; }
 
-        [PastDate]
-        [FutureDate]
-        public DateTime DateReturned { get; set; }
+        public DateTime DateReturned = DateTime.UtcNow.Date;
 
         public Issue? Issue { get; set; }
         public Stock? Stock { get; set; }

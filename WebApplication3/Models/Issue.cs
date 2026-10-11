@@ -24,6 +24,8 @@ namespace WebApplication3.Models
         [Required]
         [Range(1, 5)]
         public int Period { get; set; }
+
+        [MaxLength(25)]
         public string? Reason { get; set; }
 
         [Required]

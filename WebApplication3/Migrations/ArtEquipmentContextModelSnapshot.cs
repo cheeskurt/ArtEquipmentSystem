@@ -244,7 +244,8 @@ namespace WebApplication3.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("StudentID")
                         .HasColumnType("int");
@@ -289,7 +290,7 @@ namespace WebApplication3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemIssueID"));
 
-                    b.Property<DateTime?>("DateReturned")
+                    b.Property<DateTime>("DateReturned")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IssueID")
