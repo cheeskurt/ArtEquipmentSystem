@@ -79,19 +79,10 @@ namespace WebApplication3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemID,ItemName,Attachment,Category")] Item item)
+        public async Task<IActionResult> Create([Bind("ItemID,ItemName,Category")] Item item)
         {
             if (ModelState.IsValid)
             {
-                string img = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                img += Path.GetExtension(item.Attachment!.FileName);
-
-                string imgpath = _hostenv.WebRootPath + "/img/" + img;
-                using (var stream = System.IO.File.Create(imgpath))
-                {
-                    item.Attachment.CopyTo(stream);
-                }
-
                 _context.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -131,23 +122,6 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
-                    string img = item.ItemName;
-                    if (item.Attachment != null)
-                    {
-                        img = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                        img += Path.GetExtension(item.Attachment.FileName);
-
-                        string imgpath = _hostenv.WebRootPath + "/img/" + img;
-                        using(var stream = System.IO.File.Create(img))
-                        {
-                            item.Attachment.CopyTo(stream);
-                        }
-                    }
-
-                    string oldimgpath = _hostenv.WebRootPath + "/img/" + item.ItemName;
-                    System.IO.File.Delete(oldimgpath);
-
-
                     _context.Update(item);
                     await _context.SaveChangesAsync();
                 }
@@ -194,9 +168,6 @@ namespace WebApplication3.Controllers
 
             if (item != null)
             {
-                string imgpath = _hostenv.WebRootPath + "/img/" + item.ItemName;
-                System.IO.File.Delete(imgpath);
-
                 _context.Item.Remove(item);
             }
 
