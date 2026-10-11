@@ -26,26 +26,6 @@ public class StocksController : Controller
         return View(await stock.ToListAsync());
     }
 
-    // GET: STOCKS/Details/5
-    public async Task<IActionResult> Details(int? id)
-    {
-        if (id == null)
-        {
-            
-            return NotFound();
-        }
-
-        var stock = await _context.Stock
-            .Include(s => s.Item)
-            .FirstOrDefaultAsync(m => m.StockID == id);
-        if (stock == null)
-        {
-            return NotFound();
-        }
-
-        return View(stock);
-    }
-
     // GET: STOCKS/Create
     public IActionResult Create()
     {

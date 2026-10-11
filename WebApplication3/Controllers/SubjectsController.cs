@@ -22,24 +22,6 @@ public class SubjectsController : Controller
         return View(await _context.Subject.ToListAsync());
     }
 
-    // GET: SUBJECTS/Details/5
-    public async Task<IActionResult> Details(int? subjectid)
-    {
-        if (subjectid == null)
-        {
-            return NotFound();
-        }
-
-        var subject = await _context.Subject
-            .FirstOrDefaultAsync(m => m.SubjectID == subjectid);
-        if (subject == null)
-        {
-            return NotFound();
-        }
-
-        return View(subject);
-    }
-
     // GET: SUBJECTS/Create
     public IActionResult Create()
     {

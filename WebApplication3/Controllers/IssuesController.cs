@@ -31,26 +31,6 @@ namespace WebApplication3.Controllers
             return View(await issue.ToListAsync());
         }
 
-        // GET: Issues/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var issue = await _context.Issue
-                .Include(i => i.Student)
-                .Include(i => i.Subject)
-                .FirstOrDefaultAsync(m => m.IssueID == id);
-            if (issue == null)
-            {
-                return NotFound();
-            }
-
-            return View(issue);
-        }
-
         // GET: Issues/Create
         public IActionResult Create()
         {

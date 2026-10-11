@@ -31,26 +31,6 @@ namespace WebApplication3.Controllers
             return View(await itemIssue.ToListAsync());
         }
 
-        // GET: ItemIssues/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var itemIssue = await _context.ItemIssue
-            .Include(ii => ii.Issue)
-            .Include(ii => ii.Stock)
-            .FirstOrDefaultAsync(m => m.StockID == id);
-            if (itemIssue == null)
-            {
-                return NotFound();
-            }
-
-            return View(itemIssue);
-        }
-
         // GET: ItemIssues/Create
         public IActionResult Create()
         {

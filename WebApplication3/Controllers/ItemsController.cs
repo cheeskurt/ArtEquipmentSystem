@@ -50,24 +50,6 @@ namespace WebApplication3.Controllers
             return View(await items.AsNoTracking().ToListAsync());
         }
 
-        // GET: Items/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var item = await _context.Item
-                .FirstOrDefaultAsync(m => m.ItemID == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            return View(item);
-        }
-
         // GET: Items/Create
         public IActionResult Create()
         {
