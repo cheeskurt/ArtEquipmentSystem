@@ -26,7 +26,8 @@ namespace WebApplication3.Models
         public int Year { get; set; }
 
         [Required]
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")] 
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")]
+        [MaxLength(254)]
         public string Email { get; set; }
 
         public ICollection<Issue>? Issues { get; set; }

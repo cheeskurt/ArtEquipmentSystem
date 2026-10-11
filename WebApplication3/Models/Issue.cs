@@ -31,6 +31,7 @@ namespace WebApplication3.Models
         [Required]
         [PastDate]
         [FutureDate]
+        [DataType(DataType.Date)]
         [Display(Name = "Date Issued")]
         public DateTime DateIssued { get; set; }
 

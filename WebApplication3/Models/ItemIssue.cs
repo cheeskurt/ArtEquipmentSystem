@@ -23,6 +23,7 @@ namespace WebApplication3.Models
 
         [PastDate]
         [FutureDate]
+        [DataType(DataType.Date)]
         [Display(Name = "Date Returned")]
         public DateTime? DateReturned { get; set; }
 

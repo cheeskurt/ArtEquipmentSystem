@@ -10,7 +10,7 @@ namespace WebApplication3.Models.Attributes
         public PastDateAttribute()
         {
             // Default error message if none is provided
-            ErrorMessage = "You cannot set a further date.";
+            ErrorMessage = "You cannot set a past date.";
         }
 
         protected override ValidationResult? IsValid(

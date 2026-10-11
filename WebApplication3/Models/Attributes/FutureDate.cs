@@ -10,7 +10,7 @@ namespace WebApplication3.Models.Attributes
         public FutureDateAttribute()
         {
             // Default error message if none is provided
-            ErrorMessage = "You cannot set a further date.";
+            ErrorMessage = "You cannot set a future date.";
         }
 
         protected override ValidationResult? IsValid(
