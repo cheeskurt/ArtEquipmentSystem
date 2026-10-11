@@ -17,12 +17,6 @@ namespace WebApplication3.Models
         [ForeignKey("Student")]
         public int StudentID { get; set; }
 
-        /*
-        [Required]
-        [ForeignKey("User")]
-        public string UserID { get; set; }
-        */
-
         [Required]
         [ForeignKey("Subject")]
         public int SubjectID { get; set; }

@@ -14,12 +14,9 @@ namespace WebApplication3.Models
         public int ItemID { get; set; }
 
         [Required]
+        [Range(10, 30)]
         [Display(Name = "Item Name")]
         public string ItemName { get; set; }
-
-        [NotMapped]
-        [Display(Name = "Attach File")]
-        public IFormFile? Attachment { get; set; }
 
         [Required]
         public Category Category { get; set; }

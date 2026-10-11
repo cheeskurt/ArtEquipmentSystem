@@ -14,6 +14,7 @@ namespace WebApplication3.Models
         public int ItemID { get; set; }
 
         [Display(Name = "Stock #")]
+        [Range(1, 3)]
         public string? StockTag {  get; set; }
 
         public Item? Item { get; set; }

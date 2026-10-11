@@ -23,7 +23,7 @@ namespace WebApplication3.Models
 
         [PastDate]
         [FutureDate]
-        public DateTime? DateReturned { get; set; }
+        public DateTime DateReturned { get; set; }
 
         public Issue? Issue { get; set; }
         public Stock? Stock { get; set; }
