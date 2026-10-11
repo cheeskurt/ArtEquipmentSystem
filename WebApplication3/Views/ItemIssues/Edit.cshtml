@@ -29,6 +29,11 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DateReturned" class="control-label"></label>
+                <select asp-for="DateReturned" class="form-control"></select>
+                <span asp-validation-for="DateReturned" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

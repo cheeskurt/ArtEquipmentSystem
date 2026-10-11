@@ -290,9 +290,6 @@ namespace WebApplication3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemIssueID"));
 
-                    b.Property<DateTime>("DateReturned")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("IssueID")
                         .HasColumnType("int");
 
