@@ -18,10 +18,13 @@ namespace WebApplication3.Models
         [ForeignKey("Stock")]
         public int StockID { get; set; }
 
-        [MaxLength(150)]
+        [MaxLength(50)]
         public string? Note { get; set; }
 
-        public DateTime DateReturned { get; set; }
+        [PastDate]
+        [FutureDate]
+        [Display(Name = "Date Returned")]
+        public DateTime? DateReturned { get; set; }
 
         public Issue? Issue { get; set; }
         public Stock? Stock { get; set; }

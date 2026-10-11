@@ -290,12 +290,15 @@ namespace WebApplication3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemIssueID"));
 
+                    b.Property<DateTime?>("DateReturned")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("IssueID")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("StockID")
                         .HasColumnType("int");

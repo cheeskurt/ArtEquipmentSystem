@@ -12,8 +12,8 @@ using WebApplication3.Areas.Identity.Data;
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ArtEquipmentContext))]
-    [Migration("20260609000721_NewDatabase")]
-    partial class NewDatabase
+    [Migration("20261011071024_NewSlate")]
+    partial class NewSlate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,14 +181,6 @@ namespace WebApplication3.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -217,11 +209,6 @@ namespace WebApplication3.Migrations
 
                     b.Property<int?>("SubjectID")
                         .HasColumnType("int");
-
-                    b.Property<string>("TeacherCode")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -260,7 +247,8 @@ namespace WebApplication3.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("StudentID")
                         .HasColumnType("int");
@@ -268,17 +256,11 @@ namespace WebApplication3.Migrations
                     b.Property<int>("SubjectID")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("IssueID");
 
                     b.HasIndex("StudentID");
 
                     b.HasIndex("SubjectID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Issue");
                 });
@@ -345,7 +327,6 @@ namespace WebApplication3.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StockTag")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StockID");
@@ -474,17 +455,9 @@ namespace WebApplication3.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication3.Areas.Identity.Data.User", "User")
-                        .WithMany("Issues")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Student");
 
                     b.Navigation("Subject");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.ItemIssue", b =>
@@ -515,11 +488,6 @@ namespace WebApplication3.Migrations
                         .IsRequired();
 
                     b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("WebApplication3.Areas.Identity.Data.User", b =>
-                {
-                    b.Navigation("Issues");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.Issue", b =>

@@ -12,8 +12,8 @@ using WebApplication3.Areas.Identity.Data;
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ArtEquipmentContext))]
-    [Migration("20260602005923_FinalDatabase")]
-    partial class FinalDatabase
+    [Migration("20261011073923_Adjustments")]
+    partial class Adjustments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,6 +207,9 @@ namespace WebApplication3.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SubjectID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -224,6 +227,8 @@ namespace WebApplication3.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("SubjectID");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -238,10 +243,24 @@ namespace WebApplication3.Migrations
                     b.Property<DateTime>("DateIssued")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateReturned")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Period")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("StudentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectID")
+                        .HasColumnType("int");
 
                     b.HasKey("IssueID");
+
+                    b.HasIndex("StudentID");
+
+                    b.HasIndex("SubjectID");
 
                     b.ToTable("Issue");
                 });
@@ -254,11 +273,10 @@ namespace WebApplication3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemID"));
 
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TheItem")
+                    b.Property<string>("ItemName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -275,28 +293,24 @@ namespace WebApplication3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemIssueID"));
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Condition")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("DateReturned")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IssueID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ItemID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("StockID")
+                        .HasColumnType("int");
 
                     b.HasKey("ItemIssueID");
 
                     b.HasIndex("IssueID");
 
-                    b.HasIndex("ItemID");
+                    b.HasIndex("StockID");
 
                     b.ToTable("ItemIssue");
                 });
@@ -311,6 +325,9 @@ namespace WebApplication3.Migrations
 
                     b.Property<int>("ItemID")
                         .HasColumnType("int");
+
+                    b.Property<string>("StockTag")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StockID");
 
@@ -327,8 +344,9 @@ namespace WebApplication3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentID"));
 
-                    b.Property<int>("Class")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -340,9 +358,29 @@ namespace WebApplication3.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
                     b.HasKey("StudentID");
 
                     b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.Subject", b =>
+                {
+                    b.Property<int>("SubjectID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectID"));
+
+                    b.Property<string>("SubjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubjectID");
+
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -396,28 +434,60 @@ namespace WebApplication3.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebApplication3.Areas.Identity.Data.User", b =>
+                {
+                    b.HasOne("WebApplication3.Models.Subject", null)
+                        .WithMany("Users")
+                        .HasForeignKey("SubjectID");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.Issue", b =>
+                {
+                    b.HasOne("WebApplication3.Models.Student", "Student")
+                        .WithMany("Issues")
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication3.Models.Subject", "Subject")
+                        .WithMany("Issues")
+                        .HasForeignKey("SubjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("WebApplication3.Models.ItemIssue", b =>
                 {
-                    b.HasOne("WebApplication3.Models.Issue", null)
+                    b.HasOne("WebApplication3.Models.Issue", "Issue")
                         .WithMany("ItemIssues")
                         .HasForeignKey("IssueID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication3.Models.Item", null)
+                    b.HasOne("WebApplication3.Models.Stock", "Stock")
                         .WithMany("ItemIssues")
-                        .HasForeignKey("ItemID")
+                        .HasForeignKey("StockID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Issue");
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.Stock", b =>
                 {
-                    b.HasOne("WebApplication3.Models.Item", null)
+                    b.HasOne("WebApplication3.Models.Item", "Item")
                         .WithMany("Stocks")
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.Issue", b =>
@@ -427,9 +497,24 @@ namespace WebApplication3.Migrations
 
             modelBuilder.Entity("WebApplication3.Models.Item", b =>
                 {
-                    b.Navigation("ItemIssues");
-
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.Stock", b =>
+                {
+                    b.Navigation("ItemIssues");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.Student", b =>
+                {
+                    b.Navigation("Issues");
+                });
+
+            modelBuilder.Entity("WebApplication3.Models.Subject", b =>
+                {
+                    b.Navigation("Issues");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
