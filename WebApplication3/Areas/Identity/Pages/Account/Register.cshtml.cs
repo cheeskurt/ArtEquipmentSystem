@@ -77,6 +77,8 @@ namespace WebApplication3.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
+            [MaxLength(40)]
+            [MinLength(16)]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
