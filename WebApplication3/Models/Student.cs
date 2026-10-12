@@ -26,7 +26,7 @@ namespace WebApplication3.Models
         [Range(9, 13)]
         public int Year { get; set; }
 
-        // Emails are only typically up to 254 characters, and must meet a standard to be a valid input
+        // Emails are only typically up to 8 characters, and must meet a standard to be a valid input
         [Required]
         [EmailAddress]
         [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")]
