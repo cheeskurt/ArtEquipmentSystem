@@ -118,9 +118,9 @@ namespace WebApplication3.Controllers
         private void StudentForeignKeyDropdown(object selected = null)
         {
             var query = from s in _context.Student
-                        orderby s.FirstName
+                        orderby s.Email
                         select s;
-            ViewBag.StudentID = new SelectList(query.AsNoTracking(), "StudentID", "FirstName", selected);
+            ViewBag.StudentID = new SelectList(query.AsNoTracking(), "StudentID", "Email", selected);
         }
 
         private void SubjectForeignKeyDropdown(object selected = null)
