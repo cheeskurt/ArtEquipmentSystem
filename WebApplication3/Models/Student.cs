@@ -5,7 +5,7 @@ namespace WebApplication3.Models
 {
     public class Student
     {
-
+        // The primary key - unique identifier
         [Key]
         public int StudentID { get; set; } 
 
@@ -21,10 +21,12 @@ namespace WebApplication3.Models
         [Required(ErrorMessage = "Student's last name is required."), StringLength(30, ErrorMessage = "Last name cant be longer than 30 characters.")]
         public string LastName { get; set; }
 
+        // Avondale College only has years 9-13, and is required for student information
         [Required]
         [Range(9, 13)]
         public int Year { get; set; }
 
+        // Emails are only typically up to 254 characters, and must meet a standard to be a valid input
         [Required]
         [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")]
         [MaxLength(254)]

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApplication3;
 using WebApplication3.Areas.Identity.Data;
 using WebApplication3.Models;
 
@@ -18,6 +19,7 @@ public class StocksController : Controller
     }
 
     // GET: STOCKS
+    
     public async Task<IActionResult> Index()    
     {
         var stock = _context.Stock
@@ -25,6 +27,17 @@ public class StocksController : Controller
                 .AsNoTracking();
         return View(await stock.ToListAsync());
     }
+    
+    /*
+    public async Task<IActionResult> Index(int? pageNumber)
+    {
+        var stock = _context.Stock
+                .Include(s => s.Item)
+                .AsNoTracking();
+        int pageSize = 3;
+        return View(await PaginatedList<Stock>.CreateAsync(stock.AsNoTracking(), pageNumber ?? 1, pageSize));
+    }
+    */
 
     // GET: STOCKS/Create
     public IActionResult Create()

@@ -7,6 +7,8 @@ namespace WebApplication3.Models
     {
         [Key]
         public int SubjectID { get; set; }
+
+        // Name of each individual subject - not modifiable by user
         public string SubjectName { get; set; }
 
         public ICollection<User>? Users { get; set; }
