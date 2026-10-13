@@ -20,12 +20,17 @@ public class StocksController : Controller
 
     // GET: STOCKS
     
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index(string sortOrder, string currentFilter, int? pageNumber)    
     {
-        var stock = _context.Stock
+        ViewData["CurrentSort"] = sortOrder;
+
+        var stock = from i in _context.Stock
                 .Include(s => s.Item)
-                .AsNoTracking();
-        return View(await stock.ToListAsync());
+                .AsNoTracking()
+                select i;
+
+            int pageSize = 15;
+        return View(await PaginatedList<Stock>.CreateAsync(stock.AsNoTracking(), pageNumber ?? 1, pageSize));
     }
     
     /*

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,17 @@ namespace WebApplication3.Controllers
         }
 
         // GET: ItemIssues
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+
             var itemIssue = _context.ItemIssue
                 .Include(ii => ii.Issue)
                 .Include(ii => ii.Stock)
                 .AsNoTracking();
-            return View(await itemIssue.ToListAsync());
+
+            int pageSize = 15;
+            return View(await PaginatedList<ItemIssue>.CreateAsync(itemIssue.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: ItemIssues/Create

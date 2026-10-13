@@ -25,10 +25,19 @@ namespace WebApplication3.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            ViewData["ItemSortParm"] = String.IsNullOrEmpty(sortOrder) ? "item_desc" : "";
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var items = from i in _context.Item
                            select i;
@@ -36,13 +45,9 @@ namespace WebApplication3.Controllers
             {
                 items = items.Where(i => i.ItemName.Contains(searchString));
             }
-            switch (sortOrder)
-            {
-                case "item_desc":
-                    items = items.OrderByDescending(i => i.ItemName);
-                    break;
-            }
-            return View(await items.AsNoTracking().ToListAsync());
+
+            int pageSize = 15;
+            return View(await PaginatedList<Item>.CreateAsync(items.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Items/Create
