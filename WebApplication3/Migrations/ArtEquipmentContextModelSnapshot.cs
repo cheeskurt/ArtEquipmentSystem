@@ -275,7 +275,8 @@ namespace WebApplication3.Migrations
 
                     b.Property<string>("ItemName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("ItemID");
 
@@ -324,7 +325,9 @@ namespace WebApplication3.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StockTag")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.HasKey("StockID");
 
@@ -343,7 +346,8 @@ namespace WebApplication3.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -443,13 +447,13 @@ namespace WebApplication3.Migrations
                     b.HasOne("WebApplication3.Models.Student", "Student")
                         .WithMany("Issues")
                         .HasForeignKey("StudentID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("WebApplication3.Models.Subject", "Subject")
                         .WithMany("Issues")
                         .HasForeignKey("SubjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Student");
@@ -468,7 +472,7 @@ namespace WebApplication3.Migrations
                     b.HasOne("WebApplication3.Models.Stock", "Stock")
                         .WithMany("ItemIssues")
                         .HasForeignKey("StockID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Issue");
@@ -481,7 +485,7 @@ namespace WebApplication3.Migrations
                     b.HasOne("WebApplication3.Models.Item", "Item")
                         .WithMany("Stocks")
                         .HasForeignKey("ItemID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Item");

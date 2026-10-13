@@ -22,9 +22,35 @@ namespace WebApplication3.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            return View(await _context.Student.ToListAsync());
+            ViewData["EmailSortParm"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            ViewData["FirstNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "firstname_desc" : "";
+            ViewData["LastNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "lastname_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+
+            var students = from i in _context.Student
+                        select i;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(i => i.Email.Contains(searchString)
+                                       || i.FirstName.Contains(searchString)
+                                       || i.LastName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "email_desc":
+                    students = students.OrderByDescending(i => i.Email);
+                    break;
+                case "firstname_desc":
+                    students = students.OrderByDescending(i => i.FirstName);
+                    break;
+                case "lastname_desc":
+                    students = students.OrderByDescending(i => i.LastName);
+                    break;
+            }
+
+            return View(await students.AsNoTracking().ToListAsync());
         }
 
         // GET: Students/Create

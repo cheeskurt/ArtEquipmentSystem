@@ -1,17 +1,21 @@
 ﻿@model IEnumerable<WebApplication3.Models.Issue>
 
 @{
-    ViewData["Title"] = "Issued";
+    ViewData["Title"] = "Issue";
 }
 
-<h1>Issued</h1>
+<h1>Issue Requests</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IssueID)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Student)
             </th>
@@ -33,6 +37,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueID)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Student.Email)
             </td>

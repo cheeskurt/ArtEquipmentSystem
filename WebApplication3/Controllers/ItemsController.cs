@@ -28,23 +28,18 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["ItemSortParm"] = String.IsNullOrEmpty(sortOrder) ? "item_desc" : "";
-            ViewData["CategorySortParm"] = String.IsNullOrEmpty(sortOrder) ? "category_desc" : "";
             ViewData["CurrentFilter"] = searchString;
 
             var items = from i in _context.Item
                            select i;
             if (!String.IsNullOrEmpty(searchString))
             {
-                items = items.Where(i => i.ItemName.Contains(searchString)
-                                       || i.Category.ToString().Contains(searchString));
+                items = items.Where(i => i.ItemName.Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "name_desc":
+                case "item_desc":
                     items = items.OrderByDescending(i => i.ItemName);
-                    break;
-                case "category_desc":
-                    items = items.OrderByDescending(i => i.Category);
                     break;
             }
             return View(await items.AsNoTracking().ToListAsync());

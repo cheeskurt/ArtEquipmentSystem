@@ -17,11 +17,34 @@ public class ArtEquipmentContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
+
+        builder.Entity<Issue>()
+            .HasOne(i => i.Student)
+            .WithMany(s => s.Issues)
+            .HasForeignKey(i => i.StudentID)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Issue>()
+            .HasOne(i => i.Subject)
+            .WithMany(s => s.Issues)
+            .HasForeignKey(i => i.SubjectID)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<ItemIssue>()
+            .HasOne(iti => iti.Stock)
+            .WithMany(s => s.ItemIssues)
+            .HasForeignKey(iti => iti.StockID)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Stock>()
+            .HasOne(s => s.Item)
+            .WithMany(i => i.Stocks)
+            .HasForeignKey(s => s.ItemID)
+            .OnDelete(DeleteBehavior.NoAction);
+
     }
 
 public DbSet<WebApplication3.Models.Item> Item { get; set; } = default!;

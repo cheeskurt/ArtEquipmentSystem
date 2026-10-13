@@ -13,7 +13,7 @@ namespace WebApplication3.Models
 
         // Foreign key field that is converted into a dropdown via LINQ - Pulls an issue number ticket
         [Required]
-        [ForeignKey("Issue")]
+        [ForeignKey("Issue Ticket")]
         public int IssueID { get; set; }
 
         // Foreign key field that is converted into a dropdown via LINQ - Pulls a stock tag

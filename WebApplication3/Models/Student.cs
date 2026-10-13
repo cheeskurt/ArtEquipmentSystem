@@ -28,9 +28,8 @@ namespace WebApplication3.Models
 
         // Emails are only typically up to 8 characters, and must meet a standard to be a valid input
         [Required]
-        [EmailAddress]
         [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")]
-        [MaxLength(8)]
+        [MaxLength(24)]
         public string Email { get; set; }
 
         public ICollection<Issue>? Issues { get; set; }

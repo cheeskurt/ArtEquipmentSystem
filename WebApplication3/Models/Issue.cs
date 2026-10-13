@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography.Pkcs;
@@ -12,6 +13,7 @@ namespace WebApplication3.Models
     {
         // The primary key - unique identifier
         [Key]
+        [Display(Name = "Issue Ticket")]
         public int IssueID { get; set; } 
 
         // Foreign key field that is converted into a dropdown via LINQ - Pulls student AC
