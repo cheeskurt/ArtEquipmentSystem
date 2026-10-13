@@ -5,10 +5,10 @@
 }
 
 <div class="row">
-    <div class="col center">
+    <div class="col-md-4 center">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <img src="~/img/AvCol Logo Black on White Portrait.svg" style="width:120px;" class="center">
-            <hr />
+
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -25,7 +25,7 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-register round">Sign up</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-register text-white rounded-pill bg-black">  Sign up  </button>
         </form>
     </div>
 </div>

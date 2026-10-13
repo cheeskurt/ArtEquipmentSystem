@@ -5,12 +5,14 @@
     ViewData["Title"] = "Log in";
 }
 
+
+
 <div class="row">
     <div class="col-md-4 center">
         <section>
             <form id="account" method="post">
                 <img src="~/img/AvCol Logo Black on White Portrait.svg" style="width:120px;" class="center">
-                <hr />
+
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -29,10 +31,10 @@
                     </label>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-login round">Log in</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-login text-white rounded-pill bg-black">   Log in   </button>
                 </div>
                 <div>
-                    <p>
+                    <p class="text-center" style="font-size: 13px;">
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
                 </div>
