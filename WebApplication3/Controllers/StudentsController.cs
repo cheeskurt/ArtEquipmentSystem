@@ -46,7 +46,7 @@ namespace WebApplication3.Controllers
                                        || i.LastName.Contains(searchString));
             }
 
-            int pageSize = 3;
+            int pageSize = 15;
             return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
