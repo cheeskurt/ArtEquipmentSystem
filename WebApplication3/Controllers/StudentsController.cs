@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,19 @@ namespace WebApplication3.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            ViewData["EmailSortParm"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
-            ViewData["FirstNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "firstname_desc" : "";
-            ViewData["LastNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "lastname_desc" : "";
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             var students = from i in _context.Student
                         select i;
@@ -37,20 +45,9 @@ namespace WebApplication3.Controllers
                                        || i.FirstName.Contains(searchString)
                                        || i.LastName.Contains(searchString));
             }
-            switch (sortOrder)
-            {
-                case "email_desc":
-                    students = students.OrderByDescending(i => i.Email);
-                    break;
-                case "firstname_desc":
-                    students = students.OrderByDescending(i => i.FirstName);
-                    break;
-                case "lastname_desc":
-                    students = students.OrderByDescending(i => i.LastName);
-                    break;
-            }
 
-            return View(await students.AsNoTracking().ToListAsync());
+            int pageSize = 3;
+            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Students/Create
