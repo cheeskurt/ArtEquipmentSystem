@@ -7,7 +7,7 @@
 <h1>Stocks</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="text-center text-white rounded-pill bg-black">   Create New   </a>
 </p>
 <table class="table">
     <thead>
@@ -30,8 +30,8 @@
                 @Html.DisplayFor(modelItem => item.StockTag)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.StockID">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.StockID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.StockID">✎</a>
+                <a asp-action="Delete" asp-route-id="@item.StockID">🗑</a>
             </td>
         </tr>
 }

@@ -7,8 +7,9 @@
 <h1>Issued Items & Returns</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="text-center text-white rounded-pill bg-black">   Create New   </a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -43,8 +44,8 @@
                 @Html.DisplayFor(modelItem => item.DateReturned)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemIssueID">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.ItemIssueID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ItemIssueID">✎</a>
+                <a asp-action="Delete" asp-route-id="@item.ItemIssueID">🗑</a>
             </td>
         </tr>
 }

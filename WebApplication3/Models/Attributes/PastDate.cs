@@ -26,7 +26,7 @@ namespace WebApplication3.Models.Attributes
             // Attempt to parse the value as DateTime
             if (value is DateTime dateValue)
             {
-                if (dateValue.Date < DateTime.UtcNow.Date)
+                if (dateValue.Date < DateTime.Now.Date)
                 {
                     // Return error with the property name for client-side binding
                     return new ValidationResult(
@@ -40,7 +40,7 @@ namespace WebApplication3.Models.Attributes
             // Handle DateOnly for .NET 6+
             if (value is DateOnly dateOnlyValue)
             {
-                if (dateOnlyValue < DateOnly.FromDateTime(DateTime.UtcNow))
+                if (dateOnlyValue < DateOnly.FromDateTime(DateTime.Now))
                 {
                     return new ValidationResult(
                         ErrorMessage,

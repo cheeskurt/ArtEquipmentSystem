@@ -4,12 +4,12 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1 class="center">Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
+<h3 class="center">Are you sure you want to delete this?</h3>
+<div class="center">
     <h4>Issue</h4>
-    <hr />
+    
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Student)
@@ -46,6 +46,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="IssueID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index">Go back</a>
     </form>
 </div>
