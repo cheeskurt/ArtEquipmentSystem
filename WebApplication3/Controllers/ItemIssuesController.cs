@@ -51,6 +51,9 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ItemIssueID,IssueID,StockID,Note,DateReturned")] ItemIssue itemIssue)
         {
+
+            await ValidateItemIssueAsync(itemIssue);
+
             if (ModelState.IsValid)
             {
                 _context.Add(itemIssue);
@@ -92,6 +95,8 @@ namespace WebApplication3.Controllers
                 return NotFound();
             }
 
+            await ValidateItemIssueAsync(itemIssue);
+
             if (ModelState.IsValid)
             {
                 try
@@ -131,10 +136,33 @@ namespace WebApplication3.Controllers
         // When using the application, the user sees the stock tag whilst the ID is entered in the background.
         private void StockForeignKeyDropdown(object selected = null)
         {
-            var query = from s in _context.Stock
-                        orderby s.StockTag
-                        select s;
+            int current = selected is int s ? s : -1;
+            var query = _context.Stock
+                .Where(st => st.StockID == current || !st.ItemIssues.Any(ii => ii.DateReturned == null))
+                .OrderBy(st => st.StockTag);
             ViewBag.StockID = new SelectList(query.AsNoTracking(), "StockID", "StockTag", selected);
+        }
+
+        private async Task ValidateItemIssueAsync(ItemIssue ii)
+        {
+            if (ii.DateReturned == null)
+            {
+                bool alreadyOut = await _context.ItemIssue.AnyAsync(x =>
+                    x.StockID == ii.StockID &&
+                    x.DateReturned == null &&
+                    x.ItemIssueID != ii.ItemIssueID);
+
+                if (alreadyOut)
+                    ModelState.AddModelError(nameof(ii.StockID), "This item is already out and hasn't been returned.");
+            }
+            else
+            {
+                var issue = await _context.Issue.AsNoTracking()
+                    .FirstOrDefaultAsync(i => i.IssueID == ii.IssueID);
+
+                if (issue != null && ii.DateReturned.Value.Date < issue.DateIssued.Date)
+                    ModelState.AddModelError(nameof(ii.DateReturned), "Can't be returned before it was issued.");
+            }
         }
 
         // GET: ItemIssues/Delete/5

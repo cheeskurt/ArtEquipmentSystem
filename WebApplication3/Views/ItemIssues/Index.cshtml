@@ -6,9 +6,6 @@
 
 <h1>Issued Items & Returns</h1>
 
-<p>
-    <a asp-action="Create" class="text-center text-white rounded-pill bg-black">   Create New   </a>
-</p>
 
 <table class="table">
     <thead>
@@ -25,7 +22,9 @@
             <th>
                 Date Returned
             </th>
-            <th></th>
+            <th class="text-end py-2">
+                <a asp-action="Create" class="btn btn-dark btn-outline-secondary center">Create New</a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -44,8 +43,8 @@
                 @Html.DisplayFor(modelItem => item.DateReturned)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemIssueID">✎</a>
-                <a asp-action="Delete" asp-route-id="@item.ItemIssueID">🗑</a>
+                <a asp-action="Edit" asp-route-id="@item.ItemIssueID">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.ItemIssueID">Delete</a>
             </td>
         </tr>
 }

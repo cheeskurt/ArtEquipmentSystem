@@ -146,16 +146,20 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = await _context.Item.FindAsync(id);
+            var item = await _context.Item.FirstOrDefaultAsync(i => i.ItemID == id);
+            if (item == null) return RedirectToAction(nameof(Index));
 
-            if (item != null)
+            if (await _context.Stock.AnyAsync(s => s.ItemID == id))
             {
-                _context.Item.Remove(item);
+                ViewData["Error"] = "This item still has stock units, so it can't be deleted.";
+                return View(item);
             }
 
+            _context.Item.Remove(item);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool ItemExists(int id)
         {

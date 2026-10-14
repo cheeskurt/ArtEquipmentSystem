@@ -1,15 +1,39 @@
-﻿@{
+﻿<style>
+
+    .cosqcvideocontainer {
+        width: 100%;
+        height: 600px;
+        padding: 15px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .logo {
+        bottom: 50px;
+    }
+
+</style>
+
+@{
     ViewData["Title"] = "Home Page";
 
+    
 
     <section class="p-0 d-flex justify-content-center align-items-center overflow-hidden">
         <video class="w-100 cosqcvideocontainer" autoplay muted loop>
             <source src="vid/Hero.mp4" type="video/mp4">
         </video>
         <div class="container position-absolute p-5" data-aos="fade-up" data-aos-delay="200">
-            <img src="~/img/AvCol Logo Black on White Portrait.svg" style="width:190px;" class="center logo"> 
         </div>
     </section>
 
+    <div>
+        <img src="~/img/AvCol Logo Black on White Portrait.svg" style="width:190px;" class="center logo">
+    </div>
+
+    <div class="center text-center">
+        <h1>Art Department</h1>
+        <p>A management system developed for Avondale College's very own Art Department.</p>
+    </div>
 }
 

@@ -146,15 +146,20 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Student.FindAsync(id);
-            if (student != null)
+            var student = await _context.Student.FirstOrDefaultAsync(s => s.StudentID == id);
+            if (student == null) return RedirectToAction(nameof(Index));
+
+            if (await _context.Issue.AnyAsync(i => i.StudentID == id))
             {
-                _context.Student.Remove(student);
+                ViewData["Error"] = "This student has loan history, so they can't be deleted.";
+                return View(student);
             }
 
+            _context.Student.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool StudentExists(int id)
         {

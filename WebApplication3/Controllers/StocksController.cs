@@ -32,17 +32,6 @@ public class StocksController : Controller
             int pageSize = 15;
         return View(await PaginatedList<Stock>.CreateAsync(stock.AsNoTracking(), pageNumber ?? 1, pageSize));
     }
-    
-    /*
-    public async Task<IActionResult> Index(int? pageNumber)
-    {
-        var stock = _context.Stock
-                .Include(s => s.Item)
-                .AsNoTracking();
-        int pageSize = 3;
-        return View(await PaginatedList<Stock>.CreateAsync(stock.AsNoTracking(), pageNumber ?? 1, pageSize));
-    }
-    */
 
     // GET: STOCKS/Create
     public IActionResult Create()
@@ -58,6 +47,12 @@ public class StocksController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("StockID,ItemID,StockTag,Item,ItemIssues")] Stock stock)
     {
+
+        stock.StockTag = stock.StockTag?.Trim();
+
+        if (await _context.Stock.AnyAsync(s => s.StockTag == stock.StockTag && s.StockID != stock.StockID))
+            ModelState.AddModelError(nameof(stock.StockTag), "That stock tag is already in use.");
+
         if (ModelState.IsValid)
         {
             _context.Add(stock);
@@ -92,6 +87,12 @@ public class StocksController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id, [Bind("StockID,ItemID,StockTag,Item,ItemIssues")] Stock stock)
     {
+
+        stock.StockTag = stock.StockTag?.Trim();
+
+        if (await _context.Stock.AnyAsync(s => s.StockTag == stock.StockTag && s.StockID != stock.StockID))
+            ModelState.AddModelError(nameof(stock.StockTag), "That stock tag is already in use.");
+
         if (id != stock.StockID)
         {
             return NotFound();
@@ -156,15 +157,21 @@ public class StocksController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var stock = await _context.Stock.FindAsync(id);
-        if (stock != null)
+        var stock = await _context.Stock.Include(s => s.Item)
+            .FirstOrDefaultAsync(s => s.StockID == id);
+        if (stock == null) return RedirectToAction(nameof(Index));
+
+        if (await _context.ItemIssue.AnyAsync(ii => ii.StockID == id))
         {
-            _context.Stock.Remove(stock);
+            ViewData["Error"] = "This unit has loan history, so it can't be deleted.";
+            return View(stock);
         }
 
+        _context.Stock.Remove(stock);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
 
     private bool StockExists(int? id)
     {

@@ -118,15 +118,20 @@ public class SubjectsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? subjectid)
     {
-        var subject = await _context.Subject.FindAsync(subjectid);
-        if (subject != null)
+        var subject = await _context.Subject.FirstOrDefaultAsync(s => s.SubjectID == subjectid);
+        if (subject == null) return RedirectToAction(nameof(Index));
+
+        if (await _context.Issue.AnyAsync(i => i.SubjectID == subjectid))
         {
-            _context.Subject.Remove(subject);
+            ViewData["Error"] = "This subject has loan history, so it can't be deleted.";
+            return View(subject);
         }
 
+        _context.Subject.Remove(subject);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
 
     private bool SubjectExists(int? subjectid)
     {

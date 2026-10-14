@@ -7,11 +7,6 @@
 <h1>Students</h1>
 
 
-<p>
-    <a asp-action="Create" class="text-center text-white rounded-pill bg-black">   Create New   </a>
-</p>
-
-
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
@@ -37,7 +32,9 @@
             <th>
                 Email
             </th>
-            <th></th>
+            <th class="text-end py-2">
+                <a asp-action="Create" class="btn btn-dark btn-outline-secondary center">Create New</a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -56,8 +53,8 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.StudentID">✎</a>
-                <a asp-action="Delete" asp-route-id="@item.StudentID">🗑</a>
+                <a asp-action="Edit" asp-route-id="@item.StudentID">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.StudentID">Delete</a>
             </td>
         </tr>
 }

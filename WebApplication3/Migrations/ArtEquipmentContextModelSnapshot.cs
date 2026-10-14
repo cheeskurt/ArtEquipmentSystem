@@ -17,7 +17,7 @@ namespace WebApplication3.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.8")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -204,9 +204,6 @@ namespace WebApplication3.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubjectID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -223,8 +220,6 @@ namespace WebApplication3.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("SubjectID");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -308,7 +303,9 @@ namespace WebApplication3.Migrations
 
                     b.HasIndex("IssueID");
 
-                    b.HasIndex("StockID");
+                    b.HasIndex("StockID")
+                        .IsUnique()
+                        .HasFilter("[DateReturned] IS NULL");
 
                     b.ToTable("ItemIssue");
                 });
@@ -332,6 +329,9 @@ namespace WebApplication3.Migrations
                     b.HasKey("StockID");
 
                     b.HasIndex("ItemID");
+
+                    b.HasIndex("StockTag")
+                        .IsUnique();
 
                     b.ToTable("Stock");
                 });
@@ -363,6 +363,9 @@ namespace WebApplication3.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("StudentID");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Student");
                 });
@@ -433,13 +436,6 @@ namespace WebApplication3.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebApplication3.Areas.Identity.Data.User", b =>
-                {
-                    b.HasOne("WebApplication3.Models.Subject", null)
-                        .WithMany("Users")
-                        .HasForeignKey("SubjectID");
                 });
 
             modelBuilder.Entity("WebApplication3.Models.Issue", b =>
@@ -514,8 +510,6 @@ namespace WebApplication3.Migrations
             modelBuilder.Entity("WebApplication3.Models.Subject", b =>
                 {
                     b.Navigation("Issues");
-
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

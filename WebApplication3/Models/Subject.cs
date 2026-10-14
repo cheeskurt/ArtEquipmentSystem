@@ -11,7 +11,6 @@ namespace WebApplication3.Models
         // Name of each individual subject - not modifiable by user
         public string SubjectName { get; set; }
 
-        public ICollection<User>? Users { get; set; }
         public ICollection<Issue>? Issues { get; set; }
     }
 }

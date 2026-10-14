@@ -157,9 +157,6 @@ namespace WebApplication3.Data
 
             if (!context.Issue.Any())
             {
-                var user = context.Users.FirstOrDefault();
-                if (user == null) return;
-
                 var issues = new Issue[]
                 {
                     new Issue { StudentID = 1,  SubjectID = 1, Period = 2, Reason = "Photography assignment",     DateIssued = DateTime.Parse("2025-01-15") },
@@ -208,11 +205,11 @@ namespace WebApplication3.Data
                     new ItemIssue { IssueID = 4, StockID = 2                                                                              },
                     new ItemIssue { IssueID = 4, StockID = 5                                                                              },
                     new ItemIssue { IssueID = 5, StockID = 11, Note = "Linseed oil lid cracked."                                         },
-                    new ItemIssue { IssueID = 6,  StockID = 12 },
-                    new ItemIssue { IssueID = 7,  StockID = 13 },
-                    new ItemIssue { IssueID = 8,  StockID = 14 },
-                    new ItemIssue { IssueID = 9,  StockID = 15 },
-                    new ItemIssue { IssueID = 10, StockID = 16 },
+                    new ItemIssue { IssueID = 6,  StockID = 12, DateReturned = DateTime.Parse("2025-04-03") },
+                    new ItemIssue { IssueID = 7,  StockID = 13, DateReturned = DateTime.Parse("2025-04-04") },
+                    new ItemIssue { IssueID = 8,  StockID = 14, DateReturned = DateTime.Parse("2025-04-07") },
+                    new ItemIssue { IssueID = 9,  StockID = 15, DateReturned = DateTime.Parse("2025-04-08") },
+                    new ItemIssue { IssueID = 10, StockID = 16, DateReturned = DateTime.Parse("2025-04-09") },
                     new ItemIssue { IssueID = 11, StockID = 17, DateReturned = DateTime.Parse("2025-04-01") },
                     new ItemIssue { IssueID = 12, StockID = 18 },
                     new ItemIssue { IssueID = 13, StockID = 19 },

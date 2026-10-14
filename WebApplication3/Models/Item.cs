@@ -16,7 +16,7 @@ namespace WebApplication3.Models
 
         // The item name is required, and must bee a minimum of 10 characters or a maximum of 30 characters.
         [Required]
-        [MinLength(10)]
+        [MinLength(3)]
         [MaxLength(30)]
         [Display(Name = "Item Name")]
         public string ItemName { get; set; }

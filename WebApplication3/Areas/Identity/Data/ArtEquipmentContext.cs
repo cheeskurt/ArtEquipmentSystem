@@ -39,11 +39,25 @@ public class ArtEquipmentContext : IdentityDbContext<User>
             .HasForeignKey(iti => iti.StockID)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.Entity<ItemIssue>()
+            .HasOne(ii => ii.Issue)
+            .WithMany(i => i.ItemIssues)
+            .HasForeignKey(ii => ii.IssueID)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Entity<Stock>()
             .HasOne(s => s.Item)
             .WithMany(i => i.Stocks)
             .HasForeignKey(s => s.ItemID)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<ItemIssue>()
+            .HasIndex(ii => ii.StockID)
+            .IsUnique()
+            .HasFilter("[DateReturned] IS NULL");
+
+        builder.Entity<Stock>().HasIndex(s => s.StockTag).IsUnique();
+        builder.Entity<Student>().HasIndex(s => s.Email).IsUnique();
 
     }
 

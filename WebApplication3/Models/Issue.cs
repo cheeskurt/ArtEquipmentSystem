@@ -13,7 +13,7 @@ namespace WebApplication3.Models
     {
         // The primary key - unique identifier
         [Key]
-        [Display(Name = "Issue Ticket")]
+        [Display(Name = "Issue")]
         public int IssueID { get; set; } 
 
         // Foreign key field that is converted into a dropdown via LINQ - Pulls student AC

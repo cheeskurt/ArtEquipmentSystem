@@ -162,15 +162,26 @@ namespace WebApplication3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var issue = await _context.Issue.FindAsync(id);
-            if (issue != null)
+            var issue = await _context.Issue
+                .Include(i => i.Student)
+                .Include(i => i.Subject)
+                .Include(i => i.ItemIssues)
+                .FirstOrDefaultAsync(i => i.IssueID == id);
+            if (issue == null) return RedirectToAction(nameof(Index));
+
+            if (issue.ItemIssues != null && issue.ItemIssues.Any())
             {
-                _context.Issue.Remove(issue);
+                ViewData["Error"] = issue.ItemIssues.Any(ii => ii.DateReturned == null)
+                    ? "This ticket still has items out. Return them before deleting it."
+                    : "This ticket has items recorded on it. Remove those lines first.";
+                return View(issue);
             }
 
+            _context.Issue.Remove(issue);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool IssueExists(int id)
         {
