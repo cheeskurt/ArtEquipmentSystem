@@ -24,12 +24,24 @@ body {
   margin-bottom: 60px;
 }
 
+/* Center elements on the page */
 .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
 }
+
+/* Custom configuration for edit/delete */
+.edit-delete-btn {
+    background-color: #a6c12e;
+    color: #ffffff;
+
+    padding: 5px 12px;
+    font-size: 16px;
+    border-radius: 9999px;
+}
+
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
