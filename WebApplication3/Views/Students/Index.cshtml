@@ -33,7 +33,7 @@
                 Email
             </th>
             <th class="text-end py-2">
-                <a asp-action="Create" class="btn edit-delete-btn center">Create New</a>
+                <a asp-action="Create" class="btn btn-dark center">Create New</a>
             </th>
         </tr>
     </thead>
@@ -53,8 +53,8 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.StudentID" class="btn edit-delete-btn">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.StudentID" class="btn edit-delete-btn">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.StudentID" class="btn btn-dark">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.StudentID" class="btn btn-dark">Delete</a>
             </td>
         </tr>
 }

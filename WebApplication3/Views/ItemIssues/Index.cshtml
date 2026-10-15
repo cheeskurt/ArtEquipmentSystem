@@ -23,7 +23,7 @@
                 Date Returned
             </th>
             <th class="text-end py-2">
-                <a asp-action="Create" class="btn edit-delete-btn center">Create New</a>
+                <a asp-action="Create" class="btn btn-dark center">Create New</a>
             </th>
         </tr>
     </thead>
@@ -43,8 +43,8 @@
                 @Html.DisplayFor(modelItem => item.DateReturned)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemIssueID">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.ItemIssueID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.ItemIssueID" class="btn btn-dark">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.ItemIssueID" class="btn btn-dark">Delete</a>
             </td>
         </tr>
 }

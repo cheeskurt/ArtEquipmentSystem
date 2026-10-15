@@ -30,7 +30,7 @@
             </th>
 
             <th class="text-end py-2">
-                <a asp-action="Create" class="btn edit-delete-btn text-center">Create New</a>
+                <a asp-action="Create" class="btn btn-dark text-center">Create New</a>
             </th>
         </tr>
     </thead>
@@ -56,8 +56,8 @@
                 @Html.DisplayFor(modelItem => item.DateIssued)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IssueID">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.IssueID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IssueID" class="btn btn-dark">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.IssueID" class="btn btn-dark">Delete</a>
             </td>
         </tr>
 }
