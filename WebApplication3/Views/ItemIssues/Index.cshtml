@@ -2,73 +2,55 @@
 
 @{
     ViewData["Title"] = "Returns";
-}
-
-<h1>Issued Items & Returns</h1>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Issue Ticket
-            </th>
-            <th>
-                Stock #
-            </th>
-            <th>
-                Note
-            </th>
-            <th>
-                Date Returned
-            </th>
-            <th class="text-end py-2">
-                <a asp-action="Create" class="btn btn-dark center">Create New</a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Issue.IssueID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock.StockTag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateReturned)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.ItemIssueID" class="btn btn-dark">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.ItemIssueID" class="btn btn-dark">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
-@{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<div class="text-center">
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    <h1 class="mb-0">Issued Items &amp; Returns</h1>
+    <a asp-action="Create" class="create-btn">Create New</a>
+</div>
+
+<div class="records-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Issue Ticket</th>
+                <th>Stock #</th>
+                <th>Note</th>
+                <th>Date Returned</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Issue.IssueID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Stock.StockTag)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Note)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateReturned)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ItemIssueID" class="action">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.ItemIssueID" class="action">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex - 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @prevDisabled">
-        Previous
-    </a>
+       class="page-btn @prevDisabled">Previous</a>
+
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @nextDisabled">
-        Next
-    </a>
+       class="page-btn @nextDisabled">Next</a>
 </div>

@@ -72,6 +72,8 @@ using (var scope = app.Services.CreateScope())
 
     // ecc7ebb7-0241-4f85-a6d8-39208c0f4d3c
 
+
+    // Admin account created upon starting the app
     string email = "staff@gmail.com";
     string password = "*Art2026*";
 

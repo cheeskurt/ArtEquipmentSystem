@@ -2,86 +2,59 @@
 
 @{
     ViewData["Title"] = "Issue";
-}
-
-<h1>Issue Requests</h1>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Issue Ticket
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Subject
-            </th>
-            <th>
-                Period
-            </th>
-            <th>
-                Reason
-            </th>
-            <th>
-                Date Issued
-            </th>
-
-            <th class="text-end py-2">
-                <a asp-action="Create" class="btn btn-dark text-center">Create New</a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IssueID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Period)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateIssued)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.IssueID" class="btn btn-dark">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.IssueID" class="btn btn-dark">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
-@{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<div class="text-center">
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    <h1 class="mb-0">Issue Requests</h1>
+    <a asp-action="Create" class="create-btn">Create New</a>
+</div>
+
+<div class="records-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Issue Ticket</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Period</th>
+                <th>Reason</th>
+                <th>Date Issued</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.IssueID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Student.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Subject.SubjectName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Period)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateIssued)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IssueID" class="action">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.IssueID" class="action">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex - 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @prevDisabled">
-        Previous
-    </a>
+       class="page-btn @prevDisabled">Previous</a>
+
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @nextDisabled">
-        Next
-    </a>
+       class="page-btn @nextDisabled">Next</a>
 </div>
