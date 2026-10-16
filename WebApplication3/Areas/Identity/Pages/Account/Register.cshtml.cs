@@ -78,24 +78,9 @@ namespace WebApplication3.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [MaxLength(40)]
-            [MinLength(16)]
+            [MinLength(15)]
             [Display(Name = "Email")]
             public string Email { get; set; }
-
-            [Required]
-            [MaxLength(3)]
-            [Display(Name = "Teacher Code")]
-            public string TeacherCode { get; set; }
-
-            [Required]
-            [MaxLength(20)]
-            [MinLength(2)]
-            public string FirstName { get; set; }
-
-            [Required]
-            [MaxLength(20)]
-            [MinLength(2)]
-            public string LastName { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
